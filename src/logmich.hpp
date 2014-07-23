@@ -90,6 +90,21 @@ public:
 
 extern Logger g_logger;
 
+inline void incr_log_level(LogLevel level)
+{
+  g_logger.incr_log_level(level);
+}
+
+inline void set_log_level(LogLevel level)
+{
+  g_logger.set_log_level(level);
+}
+
+inline LogLevel get_log_level()
+{
+  return g_logger.get_log_level();
+}
+
 } // namespace logmich
 
 #define log_info(...) do {                                              \
