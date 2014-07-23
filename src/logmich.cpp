@@ -73,20 +73,29 @@ Logger::get_log_level() const
 }
 
 void
-Logger::append(LogLevel level, 
+Logger::append(LogLevel level,
+               const std::string& file, int line,
+               const std::string& msg)
+{
+  append(std::cerr, level, file, line, msg);
+}
+
+void
+Logger::append(std::ostream& out,
+               LogLevel level,
                const std::string& file, int line,
                const std::string& msg)
 {
   switch(level)
   {
-    case kError:   std::cerr << "[ERROR "; break;
-    case kWarning: std::cerr << "[WARN "; break;
-    case kInfo:    std::cerr << "[INFO "; break;
-    case kDebug:   std::cerr << "[DEBUG "; break;
-    case kTemp:    std::cerr << "[TEMP "; break;
+    case kError:   out << "[ERROR "; break;
+    case kWarning: out << "[WARN "; break;
+    case kInfo:    out << "[INFO "; break;
+    case kDebug:   out << "[DEBUG "; break;
+    case kTemp:    out << "[TEMP "; break;
   }
 
-  std::cerr << file << ":" << line << "] " << msg << std::endl;
+  out << file << ":" << line << "] " << msg << std::endl;
 }
 
 } // namespace logmich

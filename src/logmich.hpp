@@ -30,7 +30,7 @@ inline void unpack_fmt(boost::format& fmt)
 {
 }
 
-template<typename Head, typename ...Rest> 
+template<typename Head, typename ...Rest>
 inline void unpack_fmt(boost::format& fmt, const Head& head, Rest&&... rest)
 {
   unpack_fmt(fmt % head, std::forward<Rest>(rest)...);
@@ -42,7 +42,7 @@ std::string log_pretty_print(const std::string& str);
 
 } // namespace detail
 
-enum LogLevel 
+enum LogLevel
 {
   /** things that shouldn't happen (i.e. a catched exceptions) */
   kError,
@@ -72,6 +72,8 @@ public:
   void incr_log_level(LogLevel level);
   void set_log_level(LogLevel level);
   LogLevel get_log_level() const;
+
+  void append(std::ostream& out, LogLevel level, const std::string& file, int line, const std::string& str);
   void append(LogLevel level, const std::string& file, int line, const std::string& str);
 
   void append_format(LogLevel level, const std::string& file, int line, const std::string& msg)
