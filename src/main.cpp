@@ -1,8 +1,8 @@
-#include "log.hpp"
+#include "logmich.hpp"
 
 int main()
 {
-  g_logger.set_log_level(Logger::kInfo);
+  logmich::g_logger.set_log_level(logmich::kInfo);
   log_info("hello world");
   //g_logger.append_format_unchecked(Logger::kInfo, "hello world %s %05d", "STRING", 5);
   log_info("hello world %s %05d", "STRING", 5);

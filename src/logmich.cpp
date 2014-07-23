@@ -16,11 +16,13 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "log.hpp"
+#include "logmich.hpp"
 
 #include <iostream>
 
-Logger g_logger;
+namespace logmich {
+
+namespace detail {
 
 std::string log_pretty_print(const std::string& str)
 {
@@ -41,6 +43,10 @@ std::string log_pretty_print(const std::string& str)
   return str.substr(function_start);
 }
 
+} // namespace detail
+
+Logger g_logger;
+
 Logger::Logger() :
   m_log_level(kWarning)
 {}
@@ -60,7 +66,7 @@ Logger::set_log_level(LogLevel level)
   m_log_level = level;
 }
 
-Logger::LogLevel
+LogLevel
 Logger::get_log_level() const
 {
   return m_log_level;
@@ -82,5 +88,7 @@ Logger::append(LogLevel level,
 
   std::cerr << file << ":" << line << "] " << msg << std::endl;
 }
+
+} // namespace logmich
 
 /* EOF */
