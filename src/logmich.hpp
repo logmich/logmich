@@ -17,79 +17,14 @@
 //    misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 
-#ifndef HEADER_LOGMICH_LOG_HPP
-#define HEADER_LOGMICH_LOG_HPP
+#ifndef HEADER_LOGMICH_LOGMICH_HPP
+#define HEADER_LOGMICH_LOGMICH_HPP
 
 #include <string>
-#include <sstream>
-#include <boost/format.hpp>
+
+#include "logger.hpp"
 
 namespace logmich {
-namespace detail {
-
-inline void unpack_fmt(boost::format& fmt)
-{
-}
-
-template<typename Head, typename ...Rest>
-inline void unpack_fmt(boost::format& fmt, const Head& head, Rest&&... rest)
-{
-  unpack_fmt(fmt % head, std::forward<Rest>(rest)...);
-}
-
-/** Takes __PRETTY_FUNCTION__ and tries to shorten it to the form:
-    Classname::function() */
-std::string log_pretty_print(const std::string& str);
-
-} // namespace detail
-
-enum LogLevel
-{
-  /** things that shouldn't happen (i.e. a catched exceptions) */
-  kError,
-
-  /** messages that indicate an recoverable error (i.e. a catched
-      exceptions) */
-  kWarning,
-
-  /** informal status messages that don't indicate a fault in the
-      program */
-  kInfo,
-
-  /** extra verbose debugging messages */
-  kDebug,
-
-  /** temporary extra verbose debugging messages */
-  kTemp
-};
-
-class Logger
-{
-private:
-  LogLevel m_log_level;
-
-public:
-  Logger();
-  void incr_log_level(LogLevel level);
-  void set_log_level(LogLevel level);
-  LogLevel get_log_level() const;
-
-  void append(std::ostream& out, LogLevel level, const std::string& file, int line, const std::string& str);
-  void append(LogLevel level, const std::string& file, int line, const std::string& str);
-
-  void append_format(LogLevel level, const std::string& file, int line, const std::string& msg)
-  {
-    append(level, file, line, msg);
-  }
-
-  template<typename ...Args>
-  void append_format(LogLevel level, const std::string& file, int line, const std::string& fmt, Args&&... args)
-  {
-    boost::format format(fmt);
-    detail::unpack_fmt(format, args...);
-    append(level, file, line, format.str());
-  }
-};
 
 extern Logger g_logger;
 
