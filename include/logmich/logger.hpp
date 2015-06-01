@@ -20,6 +20,7 @@
 #define HEADER_LOGMICH_LOGGER_HPP
 
 #include <boost/format.hpp>
+#include <iostream>
 
 namespace logmich {
 namespace detail {
