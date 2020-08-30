@@ -19,21 +19,11 @@
 #ifndef HEADER_LOGMICH_LOGGER_HPP
 #define HEADER_LOGMICH_LOGGER_HPP
 
-#include <boost/format.hpp>
+#include <fmt/format.h>
 #include <iostream>
 
 namespace logmich {
 namespace detail {
-
-inline void unpack_fmt(boost::format& fmt)
-{
-}
-
-template<typename Head, typename ...Rest>
-inline void unpack_fmt(boost::format& fmt, const Head& head, Rest&&... rest)
-{
-  unpack_fmt(fmt % head, std::forward<Rest>(rest)...);
-}
 
 /** Takes __PRETTY_FUNCTION__ and tries to shorten it to the form:
     Classname::function() */
@@ -88,9 +78,7 @@ public:
   {
     try
     {
-      boost::format format(fmt);
-      detail::unpack_fmt(format, args...);
-      append(level, file, line, format.str());
+      append(level, file, line, fmt::format(fmt, args...));
     }
     catch(const std::exception& err)
     {

@@ -19,6 +19,46 @@
 
 #include <logmich/log.hpp>
 
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtx/io.hpp>
+#include <ostream>
+
+struct custom
+{
+};
+
+std::ostream& operator<<(std::ostream& os, const custom& c)
+{
+  return os << "woosh";
+}
+
+template<>
+struct fmt::formatter<custom>
+{
+  template<typename ParseContext>
+  constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
+
+  template<typename FormatContext>
+  auto format(custom const& c, FormatContext& ctx) {
+    return fmt::format_to(ctx.out(), "woosh");
+  }
+};
+
+template<>
+struct fmt::formatter<glm::vec2>
+{
+  template<typename ParseContext>
+  constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
+
+  template<typename FormatContext>
+  auto format(glm::vec2 const& p, FormatContext& ctx) {
+    std::ostringstream os;
+    os << p;
+    return fmt::format_to(ctx.out(), os.str());
+  }
+};
+
 int main()
 {
   logmich::set_log_level(logmich::kInfo);
@@ -29,11 +69,11 @@ int main()
   log_tmp("tmp level log message [invisible]");
 
   logmich::set_log_level(logmich::kTemp);
-  log_error("error level log message with format: %d", 5);
-  log_warn("warring level log message with format: %d", 10);
-  log_info("info level log message with format: %s", "Hello World");
-  log_debug("debug level log message with format: %d %d %d %d", 1, 2, 3, 4);
-  log_tmp("tmp level log message %d", 42);
+  log_error("error level log message with format: {}", 5);
+  log_warn("warring level log message with format: {}", 10);
+  log_info("info level log message with format: {}", "Hello World");
+  log_debug("debug level log message with format: {} {} {} {}", 1, 2, 3, 4);
+  log_tmp("tmp level log message {}", 42);
 
 
   logmich::set_log_level(logmich::kInfo);
@@ -41,6 +81,18 @@ int main()
   logmich::set_log_level(logmich::kTemp);
   log_debug("this should be visible");
   log_tmp("this should be visible");
+
+  log_warn("format test {}", 1);
+  log_warn("format test {0} {1} {0}", 1, 2);
+  log_warn("format test {}", 1);
+  log_warn("format test {}", 1);
+  log_warn("format test {}", custom());
+
+  glm::vec2 p;
+  log_warn("format test {}", p);
+
+  // won't compile:
+  //log_warn("incorrect format string test {0} {1}", p);
 
   return 0;
 }
