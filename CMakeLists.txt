@@ -19,7 +19,7 @@ project(logmich-0.1)
 
 find_package(fmt REQUIRED)
 
-add_library(logmich src/logger.cpp src/log.cpp)
+add_library(logmich STATIC src/logger.cpp src/log.cpp)
 target_include_directories(logmich PUBLIC include/)
 target_link_libraries(logmich fmt)
 
