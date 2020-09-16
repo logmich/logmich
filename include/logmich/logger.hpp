@@ -19,8 +19,10 @@
 #ifndef HEADER_LOGMICH_LOGGER_HPP
 #define HEADER_LOGMICH_LOGGER_HPP
 
-#include <fmt/format.h>
 #include <iostream>
+
+#include <fmt/format.h>
+#include <fmt/ostream.h>
 
 namespace logmich {
 namespace detail {
