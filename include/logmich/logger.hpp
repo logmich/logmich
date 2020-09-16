@@ -67,8 +67,8 @@ public:
   void set_log_level(LogLevel level);
   LogLevel get_log_level() const;
 
-  void append(std::ostream& out, LogLevel level, const std::string& file, int line, const std::string& str);
-  void append(LogLevel level, const std::string& file, int line, const std::string& str);
+  void append(std::ostream& out, LogLevel level, const std::string& file, int line, const std::string& msg);
+  void append(LogLevel level, const std::string& file, int line, const std::string& msg);
 
   void append_format(LogLevel level, const std::string& file, int line, const std::string& msg)
   {
