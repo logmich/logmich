@@ -27,7 +27,7 @@ find_package(fmt REQUIRED)
 add_library(logmich STATIC src/logger.cpp src/log.cpp)
 target_compile_options(logmich PUBLIC ${WARNINGS_CXX_FLAGS})
 target_include_directories(logmich PUBLIC include/)
-target_link_libraries(logmich fmt)
+target_link_libraries(logmich PUBLIC fmt::fmt)
 
 if(BUILD_TESTS)
   add_executable(test_logmich tests/main.cpp)
