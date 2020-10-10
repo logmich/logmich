@@ -17,9 +17,15 @@
 cmake_minimum_required(VERSION 3.6)
 project(logmich-0.1)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/external/cmake-modules/)
+
+include(ClangTidy)
+include(MaximumWarnings)
+
 find_package(fmt REQUIRED)
 
 add_library(logmich STATIC src/logger.cpp src/log.cpp)
+target_compile_options(logmich PUBLIC ${WARNINGS_CXX_FLAGS})
 target_include_directories(logmich PUBLIC include/)
 target_link_libraries(logmich fmt)
 
