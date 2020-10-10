@@ -1,5 +1,2 @@
 *~
-*.o
-/main
-/.sconsign.dblite
-/liblogmich.a
+/build*/
