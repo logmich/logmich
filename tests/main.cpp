@@ -19,45 +19,22 @@
 
 #include <logmich/log.hpp>
 
-#define GLM_FORCE_RADIANS
+#include <fmt/ostream.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtx/io.hpp>
 #include <ostream>
 
-struct custom
-{
-};
+namespace {
+
+struct custom {};
 
 std::ostream& operator<<(std::ostream& os, const custom& c)
 {
   return os << "woosh";
 }
 
-template<>
-struct fmt::formatter<custom>
-{
-  template<typename ParseContext>
-  constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
-
-  template<typename FormatContext>
-  auto format(custom const& c, FormatContext& ctx) {
-    return fmt::format_to(ctx.out(), "woosh");
-  }
-};
-
-template<>
-struct fmt::formatter<glm::vec2>
-{
-  template<typename ParseContext>
-  constexpr auto parse(ParseContext& ctx) { return ctx.begin(); }
-
-  template<typename FormatContext>
-  auto format(glm::vec2 const& p, FormatContext& ctx) {
-    std::ostringstream os;
-    os << p;
-    return fmt::format_to(ctx.out(), os.str());
-  }
-};
+} // namespace
 
 int main()
 {
