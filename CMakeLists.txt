@@ -29,7 +29,14 @@ target_compile_options(logmich PUBLIC ${WARNINGS_CXX_FLAGS})
 target_include_directories(logmich PUBLIC include/)
 target_link_libraries(logmich fmt)
 
-add_executable(test_logmich tests/main.cpp)
-target_link_libraries(test_logmich logmich)
+if(BUILD_TESTS)
+  add_executable(test_logmich tests/main.cpp)
+  target_link_libraries(test_logmich logmich)
+
+  enable_testing()
+  add_test(NAME windstille.appdata.xml
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND test_logmich)
+endif()
 
 # EOF #
