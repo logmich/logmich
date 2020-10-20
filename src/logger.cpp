@@ -81,19 +81,19 @@ Logger::append(std::ostream& out,
 {
   switch (level)
   {
-    case LogLevel::NONE:    out << "[NONE "; break;
-    case LogLevel::FATAL:   out << "[FATAL "; break;
-    case LogLevel::ERROR:   out << "[ERROR "; break;
-    case LogLevel::WARNING: out << "[WARN "; break;
-    case LogLevel::INFO:    out << "[INFO "; break;
-    case LogLevel::DEBUG:   out << "[DEBUG "; break;
-    case LogLevel::TRACE:   out << "[TRACE "; break;
+    case LogLevel::NONE:    out << "[NONE ] "; break;
+    case LogLevel::FATAL:   out << "[FATAL] "; break;
+    case LogLevel::ERROR:   out << "[ERROR] "; break;
+    case LogLevel::WARNING: out << "[WARN ] "; break;
+    case LogLevel::INFO:    out << "[INFO ] "; break;
+    case LogLevel::DEBUG:   out << "[DEBUG] "; break;
+    case LogLevel::TRACE:   out << "[TRACE] "; break;
   }
 
   if (msg.empty()) {
-    out << file << ":" << line << "]";
+    out << file << ":" << line << ": -" << std::endl;
   } else {
-    out << file << ":" << line << "] " << msg << std::endl;
+    out << file << ":" << line << ": " << msg << std::endl;
   }
 }
 
