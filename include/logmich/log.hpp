@@ -78,6 +78,10 @@ inline LogLevel get_log_level()
     }                                                                   \
   } while(false)
 
+#define log_unreachable() log_error("unreachable code reached")
+
+#define log_not_implemented() log_error("not implemented")
+
 #endif
 
 /* EOF */
