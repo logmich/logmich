@@ -25,12 +25,20 @@ include(MaximumWarnings)
 find_package(fmt REQUIRED)
 
 add_library(logmich STATIC src/logger.cpp src/log.cpp)
+set_target_properties(logmich PROPERTIES
+  CXX_STANDARD 20
+  CXX_STANDARD_REQUIRED ON
+  CXX_EXTENSIONS OFF)
 target_compile_options(logmich PUBLIC ${WARNINGS_CXX_FLAGS})
 target_include_directories(logmich PUBLIC include/)
 target_link_libraries(logmich PUBLIC fmt::fmt)
 
 if(BUILD_TESTS)
   add_executable(test_logmich tests/main.cpp)
+  set_target_properties(test_logmich PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF)
   target_link_libraries(test_logmich logmich)
 
   enable_testing()
