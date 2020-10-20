@@ -41,7 +41,7 @@ std::string_view log_pretty_print(std::string_view str)
 } // namespace detail
 
 Logger::Logger() :
-  m_log_level(kWarning)
+  m_log_level(LogLevel::WARNING)
 {}
 
 void
@@ -81,12 +81,13 @@ Logger::append(std::ostream& out,
 {
   switch (level)
   {
-    case kNone:    out << "[NONE "; break;
-    case kError:   out << "[ERROR "; break;
-    case kWarning: out << "[WARN "; break;
-    case kInfo:    out << "[INFO "; break;
-    case kDebug:   out << "[DEBUG "; break;
-    case kTemp:    out << "[TEMP "; break;
+    case LogLevel::NONE:    out << "[NONE "; break;
+    case LogLevel::FATAL:   out << "[FATAL "; break;
+    case LogLevel::ERROR:   out << "[ERROR "; break;
+    case LogLevel::WARNING: out << "[WARN "; break;
+    case LogLevel::INFO:    out << "[INFO "; break;
+    case LogLevel::DEBUG:   out << "[DEBUG "; break;
+    case LogLevel::TRACE:   out << "[TRACE "; break;
   }
 
   if (msg.empty()) {

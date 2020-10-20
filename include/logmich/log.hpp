@@ -45,36 +45,42 @@ inline LogLevel get_log_level()
 
 } // namespace logmich
 
-#define log_info(...) do {                                              \
-    if (logmich::g_logger.get_log_level() >= logmich::kInfo) {          \
-      logmich::g_logger.append_format(logmich::kInfo, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
+/** Write an debug message, while ignoring the log level. Use for
+    temporary messages in development that should not be part of final
+    release. */
+#define log_trace(...) do {                                             \
+    if (logmich::g_logger.get_log_level() >= logmich::LogLevel::TRACE) { \
+      logmich::g_logger.append_format(logmich::LogLevel::TRACE, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
 #define log_debug(...) do {                                             \
-    if (logmich::g_logger.get_log_level() >= logmich::kDebug) {         \
-      logmich::g_logger.append_format(logmich::kDebug, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::LogLevel::DEBUG) { \
+      logmich::g_logger.append_format(logmich::LogLevel::DEBUG, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
+    }                                                                   \
+  } while(false)
+
+#define log_info(...) do {                                              \
+    if (logmich::g_logger.get_log_level() >= logmich::LogLevel::INFO) { \
+      logmich::g_logger.append_format(logmich::LogLevel::INFO, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
 #define log_warn(...) do {                                              \
-    if (logmich::g_logger.get_log_level() >= logmich::kWarning) {       \
-      logmich::g_logger.append_format(logmich::kWarning, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::LogLevel::WARNING) { \
+      logmich::g_logger.append_format(logmich::LogLevel::WARNING, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
 #define log_error(...) do {                                             \
-    if (logmich::g_logger.get_log_level() >= logmich::kError) {         \
-      logmich::g_logger.append_format(logmich::kError, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::LogLevel::ERROR) { \
+      logmich::g_logger.append_format(logmich::LogLevel::ERROR, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
-/** Write an debug message, while ignoring the log level. Use for
-    temporary messages in development that should not be part of final
-    release. */
-#define log_tmp(...) do {                                               \
-    if (logmich::g_logger.get_log_level() >= logmich::kTemp) {          \
-      logmich::g_logger.append_format(logmich::kTemp, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
+#define log_fatal(...) do {                                             \
+    if (logmich::g_logger.get_log_level() >= logmich::LogLevel::FATAL) { \
+      logmich::g_logger.append_format(logmich::LogLevel::FATAL, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 

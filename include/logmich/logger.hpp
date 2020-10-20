@@ -34,27 +34,29 @@ std::string_view log_pretty_print(std::string_view str);
 
 } // namespace detail
 
-enum LogLevel
+enum class LogLevel
 {
   /** Used in set_log_level() to disable all output */
-  kNone,
+  NONE,
 
-  /** things that shouldn't happen (i.e. a catched exceptions) */
-  kError,
+  /** For fatal errors that will likely lead to program termination */
+  FATAL,
 
-  /** messages that indicate an recoverable error (i.e. a catched
-      exceptions) */
-  kWarning,
+  /** For errors that shouldn't happen */
+  ERROR,
+
+  /** For mild errors that aren't critical */
+  WARNING,
 
   /** informal status messages that don't indicate a fault in the
       program */
-  kInfo,
+  INFO,
 
-  /** extra verbose debugging messages */
-  kDebug,
+  /** extra verbose informal debug messages */
+  DEBUG,
 
   /** temporary extra verbose debugging messages */
-  kTemp
+  TRACE,
 };
 
 class Logger
