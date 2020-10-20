@@ -34,7 +34,7 @@ target_include_directories(logmich PUBLIC include/)
 target_link_libraries(logmich PUBLIC fmt::fmt)
 
 if(BUILD_TESTS)
-  add_executable(test_logmich tests/main.cpp)
+  add_executable(test_logmich test/test_logmich.cpp)
   set_target_properties(test_logmich PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
@@ -42,9 +42,13 @@ if(BUILD_TESTS)
   target_link_libraries(test_logmich logmich)
 
   enable_testing()
-  add_test(NAME windstille.appdata.xml
+  add_test(NAME test_logmich
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND test_logmich)
+    COMMAND
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/test_logmich.sh
+    ${CMAKE_CURRENT_BINARY_DIR}/test_logmich
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/test_logmich.expected
+    ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
 # EOF #

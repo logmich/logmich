@@ -19,10 +19,6 @@
 
 #include <logmich/log.hpp>
 
-#include <fmt/ostream.h>
-
-#include <glm/glm.hpp>
-#include <glm/gtx/io.hpp>
 #include <ostream>
 
 namespace {
@@ -31,45 +27,48 @@ struct custom {};
 
 std::ostream& operator<<(std::ostream& os, const custom& c)
 {
-  return os << "woosh";
+  return os << "<custom-type>";
 }
 
 } // namespace
 
 int main()
 {
-  logmich::set_log_level(logmich::kInfo);
+  logmich::set_log_level(logmich::LogLevel::INFO);
+  log_info();
+  log_warn();
+  log_error();
+  log_debug();
+  log_trace();
+
+  log_unreachable();
+  log_not_implemented();
+
+  logmich::set_log_level(logmich::LogLevel::INFO);
   log_error("error level log message");
   log_warn("warring level log message");
   log_info("info level log message");
   log_debug("debug level log message [invisible]");
-  log_tmp("tmp level log message [invisible]");
+  log_trace("tmp level log message [invisible]");
 
-  logmich::set_log_level(logmich::kTemp);
+  logmich::set_log_level(logmich::LogLevel::TRACE);
   log_error("error level log message with format: {}", 5);
   log_warn("warring level log message with format: {}", 10);
   log_info("info level log message with format: {}", "Hello World");
   log_debug("debug level log message with format: {} {} {} {}", 1, 2, 3, 4);
-  log_tmp("tmp level log message {}", 42);
+  log_trace("tmp level log message {}", 42);
 
-
-  logmich::set_log_level(logmich::kInfo);
+  logmich::set_log_level(logmich::LogLevel::INFO);
   log_debug("this should not be visible [invisible]");
-  logmich::set_log_level(logmich::kTemp);
+  logmich::set_log_level(logmich::LogLevel::TRACE);
   log_debug("this should be visible");
-  log_tmp("this should be visible");
+  log_trace("this should be visible");
 
   log_warn("format test {}", 1);
   log_warn("format test {0} {1} {0}", 1, 2);
   log_warn("format test {}", 1);
   log_warn("format test {}", 1);
   log_warn("format test {}", custom());
-
-  glm::vec2 p;
-  log_warn("format test {}", p);
-
-  // won't compile:
-  //log_warn("incorrect format string test {0} {1}", p);
 
   return 0;
 }
