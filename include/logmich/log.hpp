@@ -46,30 +46,26 @@ inline LogLevel get_log_level()
 } // namespace logmich
 
 #define log_info(...) do {                                              \
-    if (logmich::g_logger.get_log_level() >= logmich::kInfo)                      \
-    {                                                                   \
-      logmich::g_logger.append_format(logmich::kInfo, __FILE__, __LINE__, __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::kInfo) {          \
+      logmich::g_logger.append_format(logmich::kInfo, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
 #define log_debug(...) do {                                             \
-    if (logmich::g_logger.get_log_level() >= logmich::kDebug)                     \
-    {                                                                   \
-      logmich::g_logger.append_format(logmich::kDebug, __FILE__, __LINE__, __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::kDebug) {         \
+      logmich::g_logger.append_format(logmich::kDebug, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
 #define log_warn(...) do {                                              \
-    if (logmich::g_logger.get_log_level() >= logmich::kWarning)                      \
-    {                                                                   \
-      logmich::g_logger.append_format(logmich::kWarning, __FILE__, __LINE__, __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::kWarning) {       \
+      logmich::g_logger.append_format(logmich::kWarning, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
 #define log_error(...) do {                                             \
-    if (logmich::g_logger.get_log_level() >= logmich::kError)                     \
-    {                                                                   \
-      logmich::g_logger.append_format(logmich::kError, __FILE__, __LINE__, __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::kError) {         \
+      logmich::g_logger.append_format(logmich::kError, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 
@@ -77,9 +73,8 @@ inline LogLevel get_log_level()
     temporary messages in development that should not be part of final
     release. */
 #define log_tmp(...) do {                                               \
-    if (logmich::g_logger.get_log_level() >= logmich::kTemp)                      \
-    {                                                                   \
-      logmich::g_logger.append_format(logmich::kTemp, __FILE__, __LINE__, __VA_ARGS__); \
+    if (logmich::g_logger.get_log_level() >= logmich::kTemp) {          \
+      logmich::g_logger.append_format(logmich::kTemp, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 

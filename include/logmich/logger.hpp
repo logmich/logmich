@@ -20,6 +20,7 @@
 #define HEADER_LOGMICH_LOGGER_HPP
 
 #include <iostream>
+#include <string_view>
 
 #include <fmt/format.h>
 #include <fmt/ostream.h>
@@ -29,7 +30,7 @@ namespace detail {
 
 /** Takes __PRETTY_FUNCTION__ and tries to shorten it to the form:
     Classname::function() */
-std::string log_pretty_print(const std::string& str);
+std::string_view log_pretty_print(std::string_view str);
 
 } // namespace detail
 
@@ -67,24 +68,22 @@ public:
   void set_log_level(LogLevel level);
   LogLevel get_log_level() const;
 
-  void append(std::ostream& out, LogLevel level, const std::string& file, int line, const std::string& msg);
-  void append(LogLevel level, const std::string& file, int line, const std::string& msg);
+  void append(std::ostream& out, LogLevel level, std::string_view file, int line, std::string_view msg);
+  void append(LogLevel level, std::string_view file, int line, std::string_view msg);
 
-  void append_format(LogLevel level, const std::string& file, int line, const std::string& msg)
-  {
+  void append_format(LogLevel level, std::string_view file, int line, std::string_view msg = {}) {
     append(level, file, line, msg);
   }
 
   template<typename ...Args>
-  void append_format(LogLevel level, const std::string& file, int line, const std::string& fmt, Args&&... args)
+  void append_format(LogLevel level, std::string_view file, int line, std::string_view fmt, Args&&... args)
   {
-    try
-    {
+    try {
       append(level, file, line, fmt::format(fmt, args...));
-    }
-    catch(const std::exception& err)
-    {
+    } catch (std::exception const& err) {
       std::cerr << "[LOG ERROR] " << file << ":" << line << ": " << err.what() << ": \"" << fmt << "\"" << std::endl;
+    } catch (...) {
+      std::cerr << "[LOG ERROR] unknown exception" << std::endl;
     }
   }
 };

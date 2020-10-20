@@ -24,22 +24,17 @@
 namespace logmich {
 namespace detail {
 
-std::string log_pretty_print(const std::string& str)
+std::string_view log_pretty_print(std::string_view str)
 {
   // FIXME: very basic, might not work with complex return types
-  std::string::size_type function_start = 0;
-  for(std::string::size_type i = 0; i < str.size(); ++i)
-  {
-    if (str[i] == ' ')
-    {
+  std::string_view::size_type function_start = 0;
+  for(std::string_view::size_type i = 0; i < str.size(); ++i) {
+    if (str[i] == ' ') {
       function_start = i+1;
-    }
-    else if (str[i] == '(')
-    {
-      return str.substr(function_start, i - function_start) + "()";
+    } else if (str[i] == '(') {
+      return str.substr(function_start, i - function_start);
     }
   }
-
   return str.substr(function_start);
 }
 
@@ -72,8 +67,8 @@ Logger::get_log_level() const
 
 void
 Logger::append(LogLevel level,
-               const std::string& file, int line,
-               const std::string& msg)
+               std::string_view file, int line,
+               std::string_view msg)
 {
   append(std::cerr, level, file, line, msg);
 }
@@ -81,10 +76,10 @@ Logger::append(LogLevel level,
 void
 Logger::append(std::ostream& out,
                LogLevel level,
-               const std::string& file, int line,
-               const std::string& msg)
+               std::string_view file, int line,
+               std::string_view msg)
 {
-  switch(level)
+  switch (level)
   {
     case kNone:    out << "[NONE "; break;
     case kError:   out << "[ERROR "; break;
@@ -94,7 +89,11 @@ Logger::append(std::ostream& out,
     case kTemp:    out << "[TEMP "; break;
   }
 
-  out << file << ":" << line << "] " << msg << std::endl;
+  if (msg.empty()) {
+    out << file << ":" << line << "]";
+  } else {
+    out << file << ":" << line << "] " << msg << std::endl;
+  }
 }
 
 } // namespace logmich
