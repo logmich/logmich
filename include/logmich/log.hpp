@@ -45,9 +45,6 @@ inline LogLevel get_log_level()
 
 } // namespace logmich
 
-/** Write an debug message, while ignoring the log level. Use for
-    temporary messages in development that should not be part of final
-    release. */
 #define log_trace(...) do {                                             \
     if (logmich::g_logger.get_log_level() >= logmich::LogLevel::TRACE) { \
       logmich::g_logger.append_format(logmich::LogLevel::TRACE, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
@@ -81,6 +78,12 @@ inline LogLevel get_log_level()
 #define log_fatal(...) do {                                             \
     if (logmich::g_logger.get_log_level() >= logmich::LogLevel::FATAL) { \
       logmich::g_logger.append_format(logmich::LogLevel::FATAL, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
+    }                                                                   \
+  } while(false)
+
+#define log_none(...) do {                                             \
+    if (logmich::g_logger.get_log_level() >= logmich::LogLevel::NONE) { \
+      logmich::g_logger.append_format(logmich::LogLevel::NONE, __FILE__, __LINE__ __VA_OPT__(,) __VA_ARGS__); \
     }                                                                   \
   } while(false)
 

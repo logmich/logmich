@@ -18,3 +18,4 @@
 [WARN ] test/test_logmich.cpp:69: format test 1
 [WARN ] test/test_logmich.cpp:70: format test 1
 [WARN ] test/test_logmich.cpp:71: format test <custom-type>
+[NONE ] test/test_logmich.cpp:77: none will always show up

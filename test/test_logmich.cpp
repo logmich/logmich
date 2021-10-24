@@ -70,6 +70,13 @@ int main()
   log_warn("format test {}", 1);
   log_warn("format test {}", custom());
 
+  logmich::set_log_level(logmich::LogLevel::NONE);
+  log_info("info that shouldn't show up");
+  log_warn("warning that shouldn't show up");
+  log_fatal("fatal error that shouldn't show up");
+  log_none("none will always show up");
+  log_error("error that shouldn't show up");
+
   return 0;
 }
 
