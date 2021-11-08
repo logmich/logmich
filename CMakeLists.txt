@@ -17,6 +17,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(logmich VERSION 0.2.0)
 
+# CMake modules
 set(TINYCMMC_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/external/cmake-modules/modules/")
 find_package(tinycmmc CONFIG)
 message(STATUS "tinycmmc module path: ${TINYCMMC_MODULE_PATH}")
@@ -26,8 +27,10 @@ include(GNUInstallDirs)
 include(ClangTidy)
 include(MaximumWarnings)
 
+# Dependencies
 find_package(fmt REQUIRED)
 
+# Build tinycmmc
 set(TINYCMMC_HEADERS
   include/logmich/logger.hpp
   include/logmich/log.hpp)
@@ -41,13 +44,30 @@ set_target_properties(logmich PROPERTIES
   CXX_STANDARD_REQUIRED ON
   CXX_EXTENSIONS OFF)
 target_compile_options(logmich PUBLIC ${WARNINGS_CXX_FLAGS})
-target_include_directories(logmich PUBLIC include/)
+target_include_directories(logmich PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
 target_link_libraries(logmich PUBLIC fmt::fmt)
 
+# Install tinycmmc
 install(TARGETS logmich
+  EXPORT logmich-targets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/logmich)
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/logmich
+  )
+
+# CMake integration for tinycmmc
+configure_file(logmich-config.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/logmich-config.cmake" @ONLY)
+install(FILES
+  "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/logmich-config.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/logmich/")
+export(TARGETS logmich
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/logmich-targets.cmake")
+export(PACKAGE logmich)
+install(EXPORT logmich-targets
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/logmich/")
 
 if(BUILD_TESTS)
   add_executable(test_logmich test/test_logmich.cpp)

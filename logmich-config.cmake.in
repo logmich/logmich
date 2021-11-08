@@ -1,0 +1,10 @@
+get_filename_component(LOGMICH_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+include(CMakeFindDependencyMacro)
+find_dependency(fmt REQUIRED)
+
+if(NOT TARGET logmich)
+  include("${LOGMICH_CMAKE_DIR}/logmich-targets.cmake")
+endif()
+
+# EOF #
