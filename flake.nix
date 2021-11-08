@@ -18,7 +18,7 @@
             version = "0.2.0";
             src = nixpkgs.lib.cleanSource ./.;
             nativeBuildInputs = [ pkgs.cmake pkgs.ninja pkgs.gcc tinycmmc.defaultPackage.${system} ];
-            buildInputs = [ pkgs.fmt ];
+            propagatedBuildInputs = [ pkgs.fmt ];
            };
         };
         defaultPackage = packages.wstsound;
