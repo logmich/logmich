@@ -18,7 +18,7 @@
         packages = flake-utils.lib.flattenTree {
           logmich = pkgs.stdenv.mkDerivation {
             pname = "logmich";
-            version = "0.2.0";
+            version = "0.1.x-" + (if (self ? shortRev) then self.shortRev else "dirty");
             src = nixpkgs.lib.cleanSource ./.;
             nativeBuildInputs = [
               pkgs.cmake
