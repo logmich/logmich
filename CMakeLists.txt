@@ -49,26 +49,6 @@ target_include_directories(logmich PUBLIC
   $<INSTALL_INTERFACE:include>)
 target_link_libraries(logmich PUBLIC fmt::fmt)
 
-# Install tinycmmc
-install(TARGETS logmich
-  EXPORT logmich-targets
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/logmich
-  )
-
-# CMake integration for tinycmmc
-configure_file(logmich-config.cmake.in
-  "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/logmich-config.cmake" @ONLY)
-install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/logmich-config.cmake"
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/logmich/")
-export(TARGETS logmich
-  FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_FILES_DIRECTORY}/logmich-targets.cmake")
-export(PACKAGE logmich)
-install(EXPORT logmich-targets
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/logmich/")
-
 if(BUILD_TESTS)
   add_executable(test_logmich test/test_logmich.cpp)
   set_target_properties(test_logmich PROPERTIES
@@ -86,5 +66,7 @@ if(BUILD_TESTS)
     ${CMAKE_CURRENT_SOURCE_DIR}/test/test_logmich.expected
     ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
+
+include(ExportAndInstallLibrary)
 
 # EOF #
