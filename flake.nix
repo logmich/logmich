@@ -14,8 +14,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-      in rec {
-        packages = flake-utils.lib.flattenTree {
+      in {
+        packages = flake-utils.lib.flattenTree rec {
           logmich = pkgs.stdenv.mkDerivation {
             pname = "logmich";
             version = "0.2.0";
@@ -24,13 +24,14 @@
               pkgs.cmake
             ];
             buildInputs = [
-              tinycmmc.defaultPackage.${system}
+              tinycmmc.packages.${system}.default
             ];
             propagatedBuildInputs = [
               pkgs.fmt
             ];
-           };
+          };
+          default = logmich;
         };
-        defaultPackage = packages.logmich;
-      });
+      }
+    );
 }
