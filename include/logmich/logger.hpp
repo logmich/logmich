@@ -81,7 +81,7 @@ public:
   void append_format(LogLevel level, std::string_view file, int line, std::string_view fmt, Args&&... args)
   {
     try {
-      append(level, file, line, fmt::format(fmt, args...));
+      append(level, file, line, fmt::format(fmt::runtime(fmt), args...));
     } catch (std::exception const& err) {
       std::cerr << "[LOG ERROR] " << file << ":" << line << ": " << err.what() << ": \"" << fmt << "\"" << std::endl;
     } catch (...) {
