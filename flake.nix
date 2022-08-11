@@ -11,26 +11,13 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, tinycmmc }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in {
+    tinycmmc.lib.eachSystemWithPkgs (pkgs:
+      {
         packages = flake-utils.lib.flattenTree rec {
-          logmich = pkgs.stdenv.mkDerivation {
-            pname = "logmich";
-            version = "0.2.0";
-            src = nixpkgs.lib.cleanSource ./.;
-            nativeBuildInputs = [
-              pkgs.cmake
-            ];
-            buildInputs = [
-              tinycmmc.packages.${system}.default
-            ];
-            propagatedBuildInputs = [
-              pkgs.fmt
-            ];
-          };
           default = logmich;
+          logmich = pkgs.callPackage ./logmich.nix {
+            tinycmmc = tinycmmc.packages.${pkgs.system}.default;
+          };
         };
       }
     );
