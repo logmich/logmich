@@ -1,12 +1,11 @@
 {
-  description = "Software Surface Library";
+  description = "C++ logging library";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
 
     tinycmmc.url = "github:grumbel/tinycmmc";
     tinycmmc.inputs.nixpkgs.follows = "nixpkgs";
-    tinycmmc.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs = { self, nixpkgs, tinycmmc }:
