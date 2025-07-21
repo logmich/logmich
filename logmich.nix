@@ -1,7 +1,7 @@
 { stdenv
 , lib
 , cmake
-, fmt_8
+, fmt
 , tinycmmc
 }:
 
@@ -20,6 +20,6 @@ stdenv.mkDerivation {
   ];
 
   propagatedBuildInputs = [
-    fmt_8
+    fmt
   ];
 }
