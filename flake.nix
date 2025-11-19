@@ -2,7 +2,7 @@
   description = "C++ logging library";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
     tinycmmc.url = "github:grumbel/tinycmmc";
     tinycmmc.inputs.nixpkgs.follows = "nixpkgs";
@@ -14,7 +14,7 @@
         packages = rec {
           default = logmich;
           logmich = pkgs.callPackage ./logmich.nix {
-            tinycmmc = tinycmmc.packages.${pkgs.system}.default;
+            tinycmmc = tinycmmc.packages.${pkgs.stdenv.hostPlatform.system}.default;
           };
         };
       }
