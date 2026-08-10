@@ -37,7 +37,7 @@ add_library(logmich STATIC
 set_target_properties(logmich PROPERTIES
   PUBLIC_HEADER "${TINYCMMC_HEADERS}")
 set_target_properties(logmich PROPERTIES
-  CXX_STANDARD 26
+  CXX_STANDARD 20
   CXX_STANDARD_REQUIRED ON
   CXX_EXTENSIONS OFF)
 target_compile_options(logmich PUBLIC ${WARNINGS_CXX_FLAGS})
